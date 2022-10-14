@@ -17,8 +17,8 @@ c2pa-thumbs {file-path}
 The output of the command contains JSON encoded with 2 keys:
 ```json
 {
-    "thumnail": "main_thumnail_base64_encoded_source",
-    "thumnails": [
+    "thumbnail": "main_thumbnail_base64_encoded_source",
+    "thumbnails": [
         "ingrendient_thumbnail_base64_encoded_source",
         "ingrendient_1_thumbnail_base64_encoded_source",
         ...
