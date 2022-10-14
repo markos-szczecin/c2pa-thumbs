@@ -3,7 +3,7 @@ Fetch all thumbnails from the file signed with c2pa.
 
 ## Installation
 
-cargo install --git https://github.com/SmartFrame-Technologies/c2pa-thumbs.git --tag 0.1.0
+cargo install --git https://github.com/SmartFrame-Technologies/c2pa-thumbs.git
 
 ## How to use it
 
