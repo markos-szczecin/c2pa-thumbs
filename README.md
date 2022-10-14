@@ -1,5 +1,5 @@
 # c2pa-thumbs
-Fetch all thumbnails from the file signed with c2pa.
+Fetch all thumbnails from the file signed with C2PA.
 
 ## Installation
 
@@ -28,6 +28,5 @@ The output of the command contains JSON encoded with 2 keys:
 
 ## Dependencies
 
-This application use [c2pa-rs](https://github.com/contentauth/c2pa-rs)
- repository.
-Look into Cargo.toml file to see full list of dependencies.
+This application uses the [c2pa](https://github.com/contentauth/c2pa-rs) repository. 
+Look into the Cargo.toml file to see the full list of dependencies.
