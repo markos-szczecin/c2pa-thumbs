@@ -1,5 +1,5 @@
 # c2pa-thumbs
-Fetch all thumbs from file with c2pa
+Fetch all thumbnails from the file signed with c2pa.
 
 ## Installation
 
@@ -7,14 +7,14 @@ cargo install --git https://github.com/SmartFrame-Technologies/c2pa-thumbs.git -
 
 ## How to use it
 
-Run from command line
+Run from the command line
 ```shell
 c2pa-thumbs {file-path}
 ```
 
 ## Result
 
-Output of command containt json encoded with 2 keys:
+The output of the command contains JSON encoded with 2 keys:
 ```json
 {
     "thumnail": "main_thumnail_base64_encoded_source",
