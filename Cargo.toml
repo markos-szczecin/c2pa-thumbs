@@ -5,11 +5,11 @@ readme = "README.md"
 repository = "https://github.com/SmartFrame-Technologies/c2pa-thumbs.git"
 keywords = ["c2pa", "thumbnail"]
 license = "MIT"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 
 [dependencies]
-c2pa = {version="^0.16.0", features=["file_io", "fetch_remote_manifests"]}
-base64 = "^0.13.0"
-serde = { version = "^1.0.145", features = ["derive"] }
-serde_json = "^1.0.86"
+c2pa = {version="^0.20.2", features=["file_io", "fetch_remote_manifests"]}
+base64 = "^0.13.1"
+serde = { version = "^1.0.160", features = ["derive"] }
+serde_json = "^1.0.96"

@@ -25,13 +25,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     let manifest = manifest_store.get_active().unwrap();
     let ingredients = manifest.ingredients();
     let mut thumbs = ManifestThumbs { thumbnail: None, thumbnails: Vec::new()};
-    if let Some((format, image)) = manifest.thumbnail() {
-        thumbs.thumbnail = Some(format!("data:{};charset=utf-8;base64,{}", format, base64::encode(&image)));
+    if let Some((format, data)) = manifest.thumbnail() {
+        thumbs.thumbnail = Some(format!("data:{};charset=utf-8;base64,{}", format, base64::encode(data.to_vec())));
     }
 
     for i in 0..ingredients.len() {
-        if let Some((format, image)) = ingredients[i].thumbnail() {
-            thumbs.thumbnails.push(format!("data:{};charset=utf-8;base64,{}", format, base64::encode(&image)));
+        if let Some((format, data)) = ingredients[i].thumbnail() {
+            thumbs.thumbnails.push(format!("data:{};charset=utf-8;base64,{}", format, base64::encode(data.to_vec())));
         }
     }
 
