@@ -19,7 +19,7 @@ struct Args {
     #[arg(help = "The path to the file to read")]
     path: String,
 
-    #[arg(short, long, help = "The manifest id - if not passed use active manifest")]
+    #[arg(short, long, help = "The manifest label - if not passed, active manifest will be used")]
     manifest_label: Option<String>,
 
     #[arg(short, help = "List manifests labels")]
