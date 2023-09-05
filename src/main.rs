@@ -59,7 +59,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     for i in 0..ingredients.len() {
         if let Some((format, data)) = ingredients[i].thumbnail() {
-        thumbs.thumbnails.push(format!("data:{};charset=utf-8;base64,{}", format, base64::encode(data.to_vec())));
+            thumbs.thumbnails.push(format!("data:{};charset=utf-8;base64,{}", format, base64::encode(data.to_vec())));
         }
     }
 
