@@ -1,10 +1,11 @@
 use c2pa::ManifestStore;
-use std::env;
+use c2pa::Manifest;
 use std::error::Error;
-use std::process;
 use base64;
+use std::process;
 use serde::{Serialize, Deserialize};
 use serde_json;
+use clap::Parser;
 
 #[derive(Serialize, Deserialize, Debug)]
 struct ManifestThumbs {
@@ -12,20 +13,47 @@ struct ManifestThumbs {
     thumbnails: Vec<String>
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
-    let args: Vec<String> = env::args().collect();
+#[derive(Parser)]
+#[command(about = "I'm parsing cai data from images. Use `-h` to see more.", long_about = None)]
+struct Args {
+    #[arg(help = "The path to the file to read")]
+    path: String,
 
-    if args.len() < 2 {
-        println!("Please provide file");
+    #[arg(short, long, help = "The manifest label - if not passed, active manifest will be used")]
+    manifest_label: Option<String>,
+
+    #[arg(short, help = "List manifests labels")]
+    list_manifests_labels: bool,
+}
+
+fn main() -> Result<(), Box<dyn Error>> {
+    let args = Args::parse();
+
+    let manifest_store = ManifestStore::from_file(args.path)?;
+
+    if args.list_manifests_labels {
+        println!("Possible manifests: ");
+        for key in manifest_store.manifests().keys() {
+            println!("{key}");
+        }
+        process::exit(0x0000);
+    }
+
+    let manifest: Option<&Manifest>;
+    if args.manifest_label.is_none() {
+        manifest = manifest_store.get_active();
+    } else {
+        manifest = manifest_store.get(args.manifest_label.unwrap().as_str());
+    }
+
+    let mut thumbs = ManifestThumbs { thumbnail: None, thumbnails: Vec::new()};
+    if manifest.is_none() {
+        println!("Error: Manifest unknown");
         process::exit(0x0100);
     }
 
-    let file_path = &args[1];
-    let manifest_store = ManifestStore::from_file(file_path)?;
-    let manifest = manifest_store.get_active().unwrap();
-    let ingredients = manifest.ingredients();
-    let mut thumbs = ManifestThumbs { thumbnail: None, thumbnails: Vec::new()};
-    if let Some((format, data)) = manifest.thumbnail() {
+    let ingredients = manifest.unwrap().ingredients();
+    if let Some((format, data)) = manifest.unwrap().thumbnail() {
         thumbs.thumbnail = Some(format!("data:{};charset=utf-8;base64,{}", format, base64::encode(data.to_vec())));
     }
 
