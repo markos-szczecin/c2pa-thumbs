@@ -1,7 +1,8 @@
 use c2pa::ManifestStore;
 use c2pa::Manifest;
 use std::error::Error;
-use base64;
+use base64::engine::Engine as _;
+use base64::engine::general_purpose::STANDARD as BASE64;
 use std::process;
 use serde::{Serialize, Deserialize};
 use serde_json;
@@ -16,7 +17,10 @@ struct ManifestThumbs {
 #[derive(Parser)]
 #[command(about = "I'm parsing cai data from images. Use `-h` to see more.", long_about = None)]
 struct Args {
-    #[arg(help = "The path to the file to read")]
+    #[arg(short, help = "Show version of this program")]
+    version: bool,
+    
+    #[arg(help = "The path to the file to read", default_value = "empty")]
     path: String,
 
     #[arg(short, long, help = "The manifest label - if not passed, active manifest will be used")]
@@ -24,13 +28,21 @@ struct Args {
 
     #[arg(short, help = "List manifests labels")]
     list_manifests_labels: bool,
+
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
+
     let args = Args::parse();
 
-    let manifest_store = ManifestStore::from_file(args.path)?;
+    if args.version {
+        let version = env!("CARGO_PKG_VERSION");
+        println!("The version of this application is: {}", version);
+        process::exit(0x0000)
+    }
 
+    let manifest_store = ManifestStore::from_file(args.path)?;
+    
     if args.list_manifests_labels {
         println!("Possible manifests: ");
         for key in manifest_store.manifests().keys() {
@@ -54,12 +66,12 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let ingredients = manifest.unwrap().ingredients();
     if let Some((format, data)) = manifest.unwrap().thumbnail() {
-        thumbs.thumbnail = Some(format!("data:{};charset=utf-8;base64,{}", format, base64::encode(data.to_vec())));
+        thumbs.thumbnail = Some(format!("data:{};charset=utf-8;base64,{}", format, BASE64.encode(data.to_vec())));
     }
 
     for i in 0..ingredients.len() {
         if let Some((format, data)) = ingredients[i].thumbnail() {
-            thumbs.thumbnails.push(format!("data:{};charset=utf-8;base64,{}", format, base64::encode(data.to_vec())));
+            thumbs.thumbnails.push(format!("data:{};charset=utf-8;base64,{}", format, BASE64.encode(data.to_vec())));
         }
     }
 
