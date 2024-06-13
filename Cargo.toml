@@ -5,7 +5,7 @@ readme = "README.md"
 repository = "https://github.com/SmartFrame-Technologies/c2pa-thumbs.git"
 keywords = ["c2pa", "thumbnail"]
 license = "MIT"
-version = "0.5.0"
+version = "0.5.1"
 edition = "2021"
 
 [dependencies]
