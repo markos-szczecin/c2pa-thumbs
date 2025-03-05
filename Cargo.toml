@@ -5,7 +5,7 @@ readme = "README.md"
 repository = "https://github.com/markos-szczecin/c2pa-thumbs.git"
 keywords = ["c2pa", "thumbnail"]
 license = "MIT"
-version = "0.5.5"
+version = "0.5.6"
 edition = "2021"
 
 [dependencies]
