@@ -1,4 +1,4 @@
-use c2pa::manifest_store::ManifestStore;
+use c2pa::ManifestStore;
 use c2pa::Manifest;
 use std::error::Error;
 use base64::engine::Engine as _;
