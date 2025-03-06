@@ -1,4 +1,4 @@
-use c2pa::Reader;
+use c2pa::ManifestStore;
 use c2pa::Manifest;
 use std::error::Error;
 use base64::engine::Engine as _;
@@ -19,7 +19,7 @@ struct ManifestThumbs {
 struct Args {
     #[arg(short, help = "Show version of this program")]
     version: bool,
-    
+
     #[arg(help = "The path to the file to read", default_value = "empty")]
     path: String,
 
@@ -41,23 +41,23 @@ fn main() -> Result<(), Box<dyn Error>> {
         process::exit(0x0000)
     }
 
-    let manifest_store = Reader::from_file(args.path)?;
- 
+    let manifest_store = ManifestStore::from_file(args.path)?;
+    
     if args.list_manifests_labels {
         println!("Possible manifests: ");
-        for manifest in manifest_store.iter_manifests() {
-            if let Some(label) = manifest.label() {
-                println!("{label}");
-            }
+        for key in manifest_store.manifests().keys() {
+            println!("{key}");
+
+
         }
         process::exit(0x0000);
     }
 
     let manifest: Option<&Manifest>;
     if args.manifest_label.is_none() {
-        manifest = manifest_store.active_manifest();
+        manifest = manifest_store.get_active();
     } else {
-        manifest = manifest_store.get_manifest(args.manifest_label.unwrap().as_str());
+        manifest = manifest_store.get(args.manifest_label.unwrap().as_str());
     }
 
     let mut thumbs = ManifestThumbs { thumbnail: None, thumbnails: Vec::new()};
